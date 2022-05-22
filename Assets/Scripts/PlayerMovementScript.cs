@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,9 +15,12 @@ public class PlayerMovementScript : MonoBehaviour
     CapsuleCollider2D capsuleCollider;
 
     bool hasUnlockedDoubleJump = true;
-    int jumpAmount = 1;
-    int bonusJumpAmount = 0;
+    int currJumpAmount;
+    int JumpAmount = 2;
     bool isRunning;
+
+    float timeBetweenJumps = 0.5f;
+    float timeSinceJump;
 
 	// Start is called before the first frame update
 	void Start()
@@ -30,8 +34,15 @@ public class PlayerMovementScript : MonoBehaviour
     void Update()
     {
         Run();
+         if (currJumpAmount < 1 + JumpAmount)
+            HandleJumpTime();
     }
-    
+
+	void HandleJumpTime()
+	{
+        timeSinceJump -= Time.deltaTime;
+	}
+
 	void Run()
 	{
         //disables the possibilty to run upwards/downwards
@@ -61,11 +72,15 @@ public class PlayerMovementScript : MonoBehaviour
 
     void OnJump()
     {
-        if(!(jumpAmount > 0))
+        if(!(currJumpAmount > 0))
+            return;
+        if(timeSinceJump > 0)
             return;
     
 
-        jumpAmount--;
+        currJumpAmount--;
+        timeSinceJump = timeBetweenJumps;
+        playerRigidbody.velocity = new Vector2(0, 0);
         playerRigidbody.velocity += new Vector2(0, jumpHeight);
 
     }
@@ -89,13 +104,13 @@ public class PlayerMovementScript : MonoBehaviour
 	{
 		if(collision.collider.tag == "Ground")
 		{
-            jumpAmount = 1 + bonusJumpAmount;
+            currJumpAmount =  JumpAmount;
 		}
 		
 	}
 
     void BonusJumpUp()
 	{
-        bonusJumpAmount++;
+        JumpAmount++;
 	}
 }
