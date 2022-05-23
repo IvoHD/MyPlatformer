@@ -92,7 +92,11 @@ public class PlayerMovementScript : MonoBehaviour
 	void OnClimb()
 	{
         if (!capsuleCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
+		{
+            playerRigidbody.gravityScale = gravity;
             return;
+		}
+            
 
        HandleJumpOnLadder();
     }
