@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,8 +14,8 @@ public class PlayerMovementScript : MonoBehaviour
     CapsuleCollider2D capsuleCollider;
 
     bool hasUnlockedDoubleJump = true;
-    int currJumpAmount;
     int JumpAmount = 2;
+    int currJumpAmount = 2;
     bool isRunning;
 
     float timeBetweenJumps = 0.5f;
