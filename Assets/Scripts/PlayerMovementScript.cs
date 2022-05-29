@@ -93,12 +93,17 @@ public class PlayerMovementScript : MonoBehaviour
 	{
         if (!capsuleCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
 		{
+            animator.SetBool("IsClimbing", false);
             playerRigidbody.gravityScale = gravity;
             return;
 		}
-            
 
-       HandleJumpOnLadder();
+        if (Mathf.Abs(playerRigidbody.velocity.y) > Mathf.Epsilon)
+		{
+            animator.SetBool("IsRunning", false);
+            animator.SetBool("IsClimbing", true);
+		}
+        HandleJumpOnLadder();
     }
 
     /// <summary>
@@ -107,11 +112,17 @@ public class PlayerMovementScript : MonoBehaviour
 	void HandleJumpOnLadder()
 	{
         if (timeSinceJump > 0)
+		{
             playerRigidbody.gravityScale = gravity;
+            animator.SetBool("IsClimbing", false);
+		}
         else
         {
             playerRigidbody.gravityScale = 0;
             playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, moveInput.y * climbSpeed * (isRunning ? 1.5f : 1));
+
+            if (!(Mathf.Abs(playerRigidbody.velocity.y) > Mathf.Epsilon))
+                animator.SetBool("IsClimbing", false);
         }
     }
 
