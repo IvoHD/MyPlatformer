@@ -14,6 +14,7 @@ public class PlayerMovementScript : MonoBehaviour
     Vector2 moveInput;
     Rigidbody2D playerRigidbody;
     CapsuleCollider2D capsuleCollider;
+    BoxCollider2D boxCollider;
 
     bool hasUnlockedDoubleJump = true;
     int JumpAmount = 2;
@@ -29,6 +30,7 @@ public class PlayerMovementScript : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
@@ -37,10 +39,15 @@ public class PlayerMovementScript : MonoBehaviour
         Run();
         if (currJumpAmount < 1 + JumpAmount)
             HandleJumpTime();
+        CheckGrounding();
         OnClimb();
     }
 
-		
+	void CheckGrounding()
+	{
+        if (boxCollider.IsTouchingLayers(LayerMask.GetMask("Ground")) || boxCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
+            currJumpAmount = JumpAmount;
+	}
 
 	void HandleJumpTime()
 	{
@@ -138,20 +145,6 @@ public class PlayerMovementScript : MonoBehaviour
 	{
         return Mathf.Abs(playerRigidbody.velocity.x) > Mathf.Epsilon;
     }
-
-	void OnCollisionEnter2D(Collision2D collision)
-	{
-        if (collision.collider.tag == "Ground")
-            currJumpAmount = JumpAmount;
-	}
-
-	void OnTriggerEnter2D(Collider2D collision)
-	{
-        if (collision.tag == "Ladder")
-		{
-            currJumpAmount = JumpAmount;
-		}
-	}
 
     /// <summary>
     /// Increments bonusJumps
