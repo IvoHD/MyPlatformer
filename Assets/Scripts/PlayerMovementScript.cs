@@ -45,6 +45,8 @@ public class PlayerMovementScript : MonoBehaviour
 
 	void CheckGrounding()
 	{
+        if (timeSinceJump > 0)
+            return;
         if (boxCollider.IsTouchingLayers(LayerMask.GetMask("Ground")) || boxCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
             currJumpAmount = JumpAmount;
 	}
