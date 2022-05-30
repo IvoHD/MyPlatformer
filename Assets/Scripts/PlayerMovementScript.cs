@@ -16,7 +16,6 @@ public class PlayerMovementScript : MonoBehaviour
     CapsuleCollider2D capsuleCollider;
     BoxCollider2D boxCollider;
 
-    bool hasUnlockedDoubleJump = true;
     int JumpAmount = 2;
     int currJumpAmount = 2;
     bool isRunning;
