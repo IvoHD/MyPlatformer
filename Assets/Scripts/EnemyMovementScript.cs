@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMovementScript : MonoBehaviour
+public class EnemyMovementScript : MonoBehaviour, IKillable
 {
     float moveSpeed = 1.5f;
     Rigidbody2D enemyRigidbody; 
@@ -29,5 +29,15 @@ public class EnemyMovementScript : MonoBehaviour
             return;
         moveSpeed = -moveSpeed;
         FlipSprite();
+	}
+
+	public void Kill()
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public void DestroyThisGameObject()
+	{
+		throw new System.NotImplementedException();
 	}
 }

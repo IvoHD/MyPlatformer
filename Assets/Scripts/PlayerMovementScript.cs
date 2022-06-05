@@ -23,6 +23,7 @@ public class PlayerMovementScript : MonoBehaviour
     float timeBetweenJumps = 0.5f;
     float timeSinceJump;
 
+    HealthStateScript healthStateScript;
 	// Start is called before the first frame update
 	void Start()
     {
@@ -30,16 +31,26 @@ public class PlayerMovementScript : MonoBehaviour
         animator = GetComponent<Animator>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         boxCollider = GetComponent<BoxCollider2D>();
+        healthStateScript = GetComponent<HealthStateScript>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Run();
-        if (currJumpAmount < 1 + JumpAmount)
-            HandleJumpTime();
-        CheckGrounding();
-        OnClimb();
+
+		if (healthStateScript.isAlive)
+		{
+            Run();
+            if (currJumpAmount < 1 + JumpAmount)
+                HandleJumpTime();
+            CheckGrounding();
+            OnClimb();
+		}
+        else
+		{
+            JumpAmount = 0;
+            //Kill();
+		}
     }
 
 	void CheckGrounding()
@@ -154,4 +165,5 @@ public class PlayerMovementScript : MonoBehaviour
 	{
         JumpAmount++;
 	}
+
 }
