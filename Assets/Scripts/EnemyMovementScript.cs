@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMovementScript : MonoBehaviour, IKillable
+public class EnemyMovementScript : MonoBehaviour
 {
     float moveSpeed = 1.5f;
     Rigidbody2D enemyRigidbody; 
@@ -25,19 +25,9 @@ public class EnemyMovementScript : MonoBehaviour, IKillable
 
 	private void OnTriggerExit2D(Collider2D collision)
 	{
-        if (collision.tag == "Mushroom")
+        if (collision.tag == "Mushroom" || collision.tag == "Towers")
             return;
         moveSpeed = -moveSpeed;
         FlipSprite();
-	}
-
-	public void Kill()
-	{
-		throw new System.NotImplementedException();
-	}
-
-	public void DestroyThisGameObject()
-	{
-		throw new System.NotImplementedException();
 	}
 }

@@ -7,6 +7,9 @@ TagManager:
   - Ground
   - Ladder
   - Mushroom
+  - Towers
+  - Enemies
+  - Projectile
   layers:
   - Default
   - TransparentFX
@@ -20,9 +23,9 @@ TagManager:
   - Background
   - Bouncing
   - Enemies
-  - 
-  - 
-  - 
+  - Spikes
+  - Towers
+  - Projectile
   - 
   - 
   - 
@@ -53,8 +56,14 @@ TagManager:
   - name: Platform
     uniqueID: 3087370007
     locked: 0
+  - name: Towers
+    uniqueID: 288474769
+    locked: 0
   - name: Ladder
     uniqueID: 692086355
+    locked: 0
+  - name: Spikes
+    uniqueID: 1205013991
     locked: 0
   - name: Enemies
     uniqueID: 1367453825

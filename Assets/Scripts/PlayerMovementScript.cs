@@ -23,7 +23,7 @@ public class PlayerMovementScript : MonoBehaviour
     float timeBetweenJumps = 0.5f;
     float timeSinceJump;
 
-    HealthStateScript healthStateScript;
+    PlayerHealthStateScript healthStateScript;
 	// Start is called before the first frame update
 	void Start()
     {
@@ -31,7 +31,7 @@ public class PlayerMovementScript : MonoBehaviour
         animator = GetComponent<Animator>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         boxCollider = GetComponent<BoxCollider2D>();
-        healthStateScript = GetComponent<HealthStateScript>();
+        healthStateScript = GetComponent<PlayerHealthStateScript>();
     }
 
     // Update is called once per frame

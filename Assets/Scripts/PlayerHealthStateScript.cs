@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthStateScript : MonoBehaviour, IKillable
+public class PlayerHealthStateScript : MonoBehaviour, IKillable
 {
     public bool isAlive = true;
     Rigidbody2D playerRigidbody;
@@ -24,20 +24,19 @@ public class HealthStateScript : MonoBehaviour, IKillable
 
     void Update()
     {
-        
+  
     }
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-        if (playerRigidbody.IsTouchingLayers(LayerMask.GetMask("Enemies", "Spikes")) && isAlive)
+        if (collision.collider.tag == "Enemies" || collision.collider.tag == "Spikes" || collision.collider.tag == "Projectile")
             Kill();
-		
 	}
 
-    /// <summary>
-    /// Kills player
-    /// </summary>
-    public void Kill()
+	/// <summary>
+	/// Kills player
+	/// </summary>
+	public void Kill()
     {
         isAlive = false;
 
@@ -54,7 +53,6 @@ public class HealthStateScript : MonoBehaviour, IKillable
     /// <summary>
     /// Destroys this GameObject
     /// </summary>
-    /// <exception cref="NotImplementedException"></exception>
 	public void DestroyThisGameObject()
     {
         Destroy(gameObject);
