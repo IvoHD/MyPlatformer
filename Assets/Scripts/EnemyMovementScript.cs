@@ -5,17 +5,21 @@ using UnityEngine;
 public class EnemyMovementScript : MonoBehaviour
 {
     float moveSpeed = 1.5f;
-    Rigidbody2D enemyRigidbody; 
-    // Start is called before the first frame update
+    Rigidbody2D enemyRigidbody;
+    EnemyHealthStateScript enemyHealthStateScript;
+
     void Start()
     {
         enemyRigidbody = GetComponent<Rigidbody2D>();
+        enemyHealthStateScript = GetComponent<EnemyHealthStateScript>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        enemyRigidbody.velocity = new Vector2(moveSpeed, 0);    
+        if(enemyHealthStateScript.isAlive)
+            enemyRigidbody.velocity = new Vector2(moveSpeed, 0);    
+        else
+            enemyRigidbody.velocity = Vector2.zero;
     }
 
     void FlipSprite()

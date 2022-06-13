@@ -6,34 +6,30 @@ public class EnemyHealthStateScript : MonoBehaviour, IKillable
 {
     public bool isAlive = true;
     SpriteRenderer enemySprite;
-    Rigidbody2D enemyRigidbody;
     Color32 deathColor = new Color32(255, 0, 0, 255);
 
-    // Start is called before the first frame update
+    Animator animator;
+
+
     void Start()
     {
-        enemyRigidbody = GetComponent<Rigidbody2D>();
         enemySprite = GetComponent<SpriteRenderer>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if(enemyRigidbody.IsTouchingLayers(LayerMask.GetMask("Projectile")))
-            Kill();
+        animator = GetComponent<Animator>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
 	{
-        if(collision.collider.tag == "Projectile")
+        if (collision.collider.tag == "Projectile")
             Kill();
     }
+
 	public void Kill()
     {
         isAlive = false;
 
+        animator.enabled = false;
         enemySprite.color = deathColor;
-        Invoke("DestroyThisGameObject", 3);
+        Invoke("DestroyThisGameObject", 1f);
     }
 
     public void DestroyThisGameObject()

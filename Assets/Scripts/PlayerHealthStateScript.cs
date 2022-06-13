@@ -22,11 +22,6 @@ public class PlayerHealthStateScript : MonoBehaviour, IKillable
         particleSystem = GetComponent<ParticleSystem>();
     }
 
-    void Update()
-    {
-  
-    }
-
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
         if (collision.collider.tag == "Enemies" || collision.collider.tag == "Spikes" || collision.collider.tag == "Projectile")
