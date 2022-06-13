@@ -29,7 +29,7 @@ public class HealthStateScript : MonoBehaviour, IKillable
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-        if (playerRigidbody.IsTouchingLayers(LayerMask.GetMask("Enemies")) && isAlive)
+        if (playerRigidbody.IsTouchingLayers(LayerMask.GetMask("Enemies", "Spikes")) && isAlive)
             Kill();
 		
 	}
