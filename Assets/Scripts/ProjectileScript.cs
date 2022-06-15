@@ -7,15 +7,23 @@ public class ProjectileScript : MonoBehaviour
     [SerializeField]
     GameObject projectile;
 
-    float spawnInterval = 3f;
+    [SerializeField]
+    float DefaultSpawnInterval;
 
-    // Update is called once per frame
-    void Update()
+    float spawnInterval;
+
+	void Start()
+	{
+        spawnInterval = DefaultSpawnInterval;
+	}
+
+	// Update is called once per frame
+	void Update()
     {
         spawnInterval -= Time.deltaTime;
         if (spawnInterval < 0)
 		{
-            spawnInterval = 3f;
+            spawnInterval = DefaultSpawnInterval;
             SpawnProjectile();
 		}
     }
