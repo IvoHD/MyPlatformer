@@ -8,6 +8,7 @@ public class ProjectileBehaviousScript : MonoBehaviour
     public bool isFacingLeft;
     float lifeTime = 30f;
     Rigidbody2D projectileRigidbody;
+    bool isReflected;
 
     void Start()
     {
@@ -19,11 +20,15 @@ public class ProjectileBehaviousScript : MonoBehaviour
         lifeTime -= Time.deltaTime;
         if (lifeTime < 0)
             Destroy(gameObject);
-        projectileRigidbody.velocity = new Vector2(isFacingLeft ? -bulletspeed : bulletspeed, 0f);
+        projectileRigidbody.velocity = new Vector2(isFacingLeft ? (isReflected ? bulletspeed : -bulletspeed) : (isReflected ? -bulletspeed : bulletspeed), 0f);
     }
 
 	private void OnCollisionEnter2D(Collision2D collision)
     {
-        Destroy(gameObject);
+        if (collision.collider.tag != "Sword")
+            Destroy(gameObject);
+		else
+            isReflected = !isReflected;
 	}
+
 }
