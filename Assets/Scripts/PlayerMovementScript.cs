@@ -17,7 +17,7 @@ public class PlayerMovementScript : MonoBehaviour
     BoxCollider2D boxCollider;
 
     int JumpAmount = 1;
-    int currJumpAmount = 2;
+    int currJumpAmount = 1;
     bool isRunning;
 
     float timeBetweenJumps = 0.5f;
@@ -56,7 +56,7 @@ public class PlayerMovementScript : MonoBehaviour
 	{
         if (timeSinceJump > 0)
             return;
-        if (boxCollider.IsTouchingLayers(LayerMask.GetMask("Ground")) || boxCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
+        if (boxCollider.IsTouchingLayers(LayerMask.GetMask("Ground", "Climbing")))
             currJumpAmount = JumpAmount;
 	}
 
@@ -93,7 +93,8 @@ public class PlayerMovementScript : MonoBehaviour
             return;
         if(timeSinceJump > 0)
             return;
-    
+        if (JumpAmount == 1 && !boxCollider.IsTouchingLayers(LayerMask.GetMask("Ground", "Climbing")))
+            return;
         currJumpAmount--;
         timeSinceJump = timeBetweenJumps;
         playerRigidbody.velocity = new Vector2(0, 0);
