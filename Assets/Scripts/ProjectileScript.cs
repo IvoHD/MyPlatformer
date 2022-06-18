@@ -10,11 +10,14 @@ public class ProjectileScript : MonoBehaviour
     [SerializeField]
     float DefaultSpawnInterval;
 
+    [SerializeField]
+    float startDelay;
+
     float spawnInterval;
 
 	void Start()
 	{
-        spawnInterval = DefaultSpawnInterval;
+        spawnInterval = startDelay;
 	}
 
 	// Update is called once per frame

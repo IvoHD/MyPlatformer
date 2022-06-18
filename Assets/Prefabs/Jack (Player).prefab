@@ -20,7 +20,6 @@ GameObject:
   - component: {fileID: -5950336433717079359}
   - component: {fileID: 6768709676691667755}
   - component: {fileID: 4810930927642859556}
-  - component: {fileID: 1061539651}
   m_Layer: 8
   m_Name: Jack (Player)
   m_TagString: Player
@@ -5028,18 +5027,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &1061539651
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 355928163669322662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4016a3e140380164dbc14ae33463e4d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7490341238571986073
 GameObject:
   m_ObjectHideFlags: 0
@@ -5058,7 +5045,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8553158835396629819
 Transform:
   m_ObjectHideFlags: 0
@@ -5191,7 +5178,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5540846262473134815
 Transform:
   m_ObjectHideFlags: 0
