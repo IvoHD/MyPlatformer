@@ -56,7 +56,7 @@ public class PlayerMovementScript : MonoBehaviour
 	{
         if (timeSinceJump > 0)
             return;
-        if (boxCollider.IsTouchingLayers(LayerMask.GetMask("Ground", "Climbing")))
+        if (boxCollider.IsTouchingLayers(LayerMask.GetMask("Ground", "Climbing", "Towers", "Climbing")))
             currJumpAmount = JumpAmount;
 	}
 
@@ -93,7 +93,7 @@ public class PlayerMovementScript : MonoBehaviour
             return;
         if(timeSinceJump > 0)
             return;
-        if (JumpAmount == 1 && !boxCollider.IsTouchingLayers(LayerMask.GetMask("Ground", "Climbing")))
+        if (JumpAmount == 1 && !boxCollider.IsTouchingLayers(LayerMask.GetMask("Ground", "Climbing", "Towers")))
             return;
         currJumpAmount--;
         timeSinceJump = timeBetweenJumps;

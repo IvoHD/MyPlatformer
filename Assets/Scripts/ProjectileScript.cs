@@ -37,9 +37,4 @@ public class ProjectileScript : MonoBehaviour
         //gets parent direction
         obj.GetComponent<ProjectileBehaviousScript>().isFacingLeft = gameObject.transform.parent.gameObject.transform.localScale.x > 0; ;
 	}
-
-	private void OnCollisionEnter2D(Collision2D collision)
-	{
-        Debug.Log("Contact");
-	}
 } 
