@@ -11,6 +11,7 @@ TagManager:
   - Enemies
   - Projectile
   - Spikes
+  - Sword
   layers:
   - Default
   - TransparentFX

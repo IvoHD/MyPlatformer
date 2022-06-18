@@ -17,7 +17,7 @@ public class RotateSwordsScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         OnRotate(null);
     }
