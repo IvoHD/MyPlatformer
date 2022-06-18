@@ -6,20 +6,24 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovementScript : MonoBehaviour
 {
-    float runSpeed = 5f;
-    float jumpHeight = 12f;
-    float climbSpeed = 3f;
     float gravity = 2.5f;
+
+    float runSpeed = 5f;
+    float climbSpeed = 3f;
     Animator animator;
     Vector2 moveInput;
     Rigidbody2D playerRigidbody;
     CapsuleCollider2D capsuleCollider;
     BoxCollider2D boxCollider;
 
+    float jumpHeight = 8f;
     int JumpAmount = 1;
     int currJumpAmount = 1;
-    bool isRunning;
+    float fallingFactor = 5f;
+    float holdSpaceFactor = 5f;
 
+    bool isRunning;
+    
     float timeBetweenJumps = 0.5f;
     float timeSinceJump;
 
@@ -34,17 +38,18 @@ public class PlayerMovementScript : MonoBehaviour
         healthStateScript = GetComponent<PlayerHealthStateScript>();
     }
 
-    void Update()
+	void Update()
     {
 
-		if (healthStateScript.isAlive)
+        if (healthStateScript.isAlive)
 		{
             Run();
             if (currJumpAmount < 1 + JumpAmount)
                 timeSinceJump -= Time.deltaTime;
             CheckGrounding();
             OnClimb();
-		}
+            OnJump(null);
+        }
         else
 		{
             JumpAmount = 0;
@@ -87,25 +92,38 @@ public class PlayerMovementScript : MonoBehaviour
         moveInput = value.Get<Vector2>();
 	}
 
-    void OnJump()
+    void OnJump(InputValue value)
     {
-        if(!(currJumpAmount > 0))
+        //Dynamic jump
+        if (playerRigidbody.velocity.y < 0)
+        {
+            playerRigidbody.velocity += Vector2.down * gravity * fallingFactor * 2 * Time.deltaTime;
+        }
+        else if (playerRigidbody.velocity.y > 0 && Input.GetKey(KeyCode.Space))
+            playerRigidbody.velocity += Vector2.up * holdSpaceFactor * gravity * Time.deltaTime;
+
+        if (value is null)
+            return;
+
+        if (!(currJumpAmount > 0))
             return;
         if(timeSinceJump > 0)
             return;
-        if (JumpAmount == 1 && !boxCollider.IsTouchingLayers(LayerMask.GetMask("Ground", "Climbing", "Towers")))
+        if (JumpAmount == 1 && !boxCollider.IsTouchingLayers(LayerMask.GetMask("Ground", "Climbing", "Towers"))) 
             return;
         currJumpAmount--;
         timeSinceJump = timeBetweenJumps;
         playerRigidbody.velocity = new Vector2(0, 0);
         playerRigidbody.velocity += new Vector2(0, jumpHeight);
         playerRigidbody.gravityScale = gravity;
+
     }
 
-    /// <summary>
-    /// Checks if Player is climbing
-    /// </summary>
-	void OnClimb()
+
+        /// <summary>
+        /// Checks if Player is climbing
+        /// </summary>
+        void OnClimb()
 	{
         if (!capsuleCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
 		{

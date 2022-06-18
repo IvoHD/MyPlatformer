@@ -19,7 +19,7 @@ public class EnemyHealthStateScript : MonoBehaviour, IKillable
 
     private void OnCollisionEnter2D(Collision2D collision)
 	{
-        if (collision.collider.tag == "Projectile")
+        if (collision.collider.tag == "Projectile" || collision.collider.tag == "Sword")
             Kill();
     }
 

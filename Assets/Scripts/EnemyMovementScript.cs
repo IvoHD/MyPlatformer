@@ -7,11 +7,13 @@ public class EnemyMovementScript : MonoBehaviour
     float moveSpeed = 1.5f;
     Rigidbody2D enemyRigidbody;
     EnemyHealthStateScript enemyHealthStateScript;
+    CapsuleCollider2D capsuleCollider;
 
     void Start()
     {
         enemyRigidbody = GetComponent<Rigidbody2D>();
         enemyHealthStateScript = GetComponent<EnemyHealthStateScript>();
+        capsuleCollider = GetComponent<CapsuleCollider2D>();
     }
 
     void Update()
@@ -19,7 +21,10 @@ public class EnemyMovementScript : MonoBehaviour
         if(enemyHealthStateScript.isAlive)
             enemyRigidbody.velocity = new Vector2(moveSpeed, 0);    
         else
+		{
             enemyRigidbody.velocity = Vector2.zero;
+            Destroy(capsuleCollider);
+		}
     }
 
     void FlipSprite()

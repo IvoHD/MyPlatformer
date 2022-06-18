@@ -33,16 +33,19 @@ public class PlayerHealthStateScript : MonoBehaviour, IKillable
 	/// </summary>
 	public void Kill()
     {
+
+        if (isAlive)
+        {
+            animator.SetTrigger("Killed");
+
+            playerRigidbody.velocity = new Vector2(5f * (Mathf.Sign(playerRigidbody.velocity.x + 1)), 5f);
+            playerRigidbody.sharedMaterial = deathMaterial;
+
+            particleSystem.Play();
+
+            Invoke("DestroyThisGameObject", 2f);
+        }
         isAlive = false;
-
-        animator.SetTrigger("Killed");
-
-        playerRigidbody.velocity = new Vector2(5f * (Mathf.Sign(playerRigidbody.velocity.x + 1)), 5f);
-        playerRigidbody.sharedMaterial = deathMaterial;
-
-        particleSystem.Play();
-
-        Invoke("DestroyThisGameObject", 2f);
     }
 
     /// <summary>
