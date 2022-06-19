@@ -28,7 +28,7 @@ TagManager:
   - Spikes
   - Towers
   - Projectile
-  - 
+  - Interactabels
   - 
   - 
   - 
@@ -69,6 +69,9 @@ TagManager:
     locked: 0
   - name: Enemies
     uniqueID: 1367453825
+    locked: 0
+  - name: Interactabels
+    uniqueID: 689127805
     locked: 0
   - name: Player
     uniqueID: 1050560595

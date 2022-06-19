@@ -17,7 +17,7 @@ public class RotateSwordsScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         OnRotate(null);
     }
@@ -28,7 +28,6 @@ public class RotateSwordsScript : MonoBehaviour
             lSwordDownrSwordUp = !lSwordDownrSwordUp;
 
         isFacingRight = gameObject.transform.localScale.x > 0;
-
         if (isFacingRight)
         {
             lSword.rotation = Quaternion.Euler(0, 0, lSwordDownrSwordUp ? 180 : 0);
