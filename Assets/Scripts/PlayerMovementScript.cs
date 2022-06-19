@@ -17,9 +17,9 @@ public class PlayerMovementScript : MonoBehaviour
     BoxCollider2D boxCollider;
 
     float jumpHeight = 8f;
-    int JumpAmount = 1;
+    int JumpAmount = 2;
     int currJumpAmount = 1;
-    float fallingFactor = 5f;
+    float fallingFactor = 10f;
     float holdSpaceFactor = 5f;
 
     bool isRunning;
@@ -97,7 +97,7 @@ public class PlayerMovementScript : MonoBehaviour
         //Dynamic jump
         if (playerRigidbody.velocity.y < 0)
         {
-            playerRigidbody.velocity += Vector2.down * gravity * fallingFactor * 2 * Time.deltaTime;
+            playerRigidbody.velocity += Vector2.down * gravity * fallingFactor * Time.deltaTime;
         }
         else if (playerRigidbody.velocity.y > 0 && Input.GetKey(KeyCode.Space))
             playerRigidbody.velocity += Vector2.up * holdSpaceFactor * gravity * Time.deltaTime;
