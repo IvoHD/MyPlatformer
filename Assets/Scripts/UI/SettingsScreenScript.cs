@@ -102,7 +102,7 @@ public class SettingsScreenScript : MonoBehaviour
 	public void ApplyChanges()
 	{
 		Screen.SetResolution(resItems[selectedResIndex].width, resItems[selectedResIndex].height, fullScreenToggle.isOn);
-		if (!volumeToggle.isOn)
+		if (volumeToggle.isOn)
 		{
 			volumeSlider.value = -80;
 			mixer.SetFloat("MasterVol", -80);

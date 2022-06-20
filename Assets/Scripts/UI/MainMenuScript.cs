@@ -12,7 +12,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void Play()
     {
-        GameManager.instance.LoadCurrentLevel();
+        GameManager.instance.LoadLastLevel();
     }
 
     public void OpenSettings()

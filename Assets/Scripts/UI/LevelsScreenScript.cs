@@ -9,9 +9,9 @@ public class LevelsScreenScript : MonoBehaviour
     List<Button> buttons;
     void Start()
     {
-        for (int i = 2; i < GameManager.instance.getCurrentLevel(); i++)
+        for (int i = 0; i <= GameManager.instance.getMaxLevelIndex(); i++)
 		{
-            buttons[i - 2].interactable = true;
+            buttons[i].interactable = true;
 		}
     }
 

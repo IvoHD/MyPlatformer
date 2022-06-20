@@ -17,8 +17,8 @@ public class PlayerMovementScript : MonoBehaviour
     BoxCollider2D boxCollider;
 
     float jumpHeight = 8f;
-    int JumpAmount = 2;
-    int currJumpAmount = 1;
+    int JumpAmount;
+    int currJumpAmount;
     float fallingFactor = 10f;
     float holdSpaceFactor = 5f;
 
@@ -36,6 +36,12 @@ public class PlayerMovementScript : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         boxCollider = GetComponent<BoxCollider2D>();
         healthStateScript = GetComponent<PlayerHealthStateScript>();
+
+        //Different max amount of jumps depending on current level
+        if(GameManager.instance.getCurrentLevel() >= 9)
+            JumpAmount = currJumpAmount = 2;
+        else
+            JumpAmount = currJumpAmount = 1;
     }
 
 	void Update()

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    int currentLevelIndex = 2;  //Index 2 is equal to Level 1
+    int maxLevelIndex = 9;  //Index 1 is equal to Level 1
 
     public static GameManager m_instance;
     public static GameManager instance
@@ -21,28 +21,29 @@ public class GameManager : MonoBehaviour
         }
 	}
 
-
-
-    public void setCurrentLevel(int levelIndex)
-    {
-        currentLevelIndex = levelIndex;
-        if (currentLevelIndex == 10)
-            SceneManager.LoadScene(0);
+    public void LoadMaxLevel()
+	{
+        SceneManager.LoadScene(maxLevelIndex);
     }
+
+    public int getMaxLevelIndex()
+	{
+        return maxLevelIndex;
+	}
 
     public int getCurrentLevel()
 	{
-        return currentLevelIndex;
+        return SceneManager.GetActiveScene().buildIndex;
 	}
 
-    public void LoadCurrentLevel()
+    public void LoadLastLevel()
 	{
-        SceneManager.LoadScene(currentLevelIndex);
+        SceneManager.LoadScene(maxLevelIndex);
 	}
 
     public void LoadLevel(int levelIndex)
 	{
-        if (levelIndex <= currentLevelIndex)
+        if (levelIndex <= maxLevelIndex)
             SceneManager.LoadScene(levelIndex);
 	}
 
@@ -54,10 +55,14 @@ public class GameManager : MonoBehaviour
     public void LoadNextLevel()
     {
         int currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
-        if (currentLevelIndex + 1 > SceneManager.sceneCountInBuildSettings)
+        if (currentLevelIndex + 2 > SceneManager.sceneCountInBuildSettings)
+		{
             SceneManager.LoadScene(0);
-        else
-            SceneManager.LoadScene(currentLevelIndex + 1);
+            return;
+		}
+        if (currentLevelIndex + 1 > maxLevelIndex)
+            maxLevelIndex = currentLevelIndex + 1;
+        SceneManager.LoadScene(currentLevelIndex + 1);
     }
 }
 
