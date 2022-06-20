@@ -9,8 +9,10 @@ public class MainMenuScript : MonoBehaviour
     GameObject settingsScreen;
     [SerializeField]
     GameObject levelsScreen;
+    [SerializeField]
+    LevelsScreenScript levelsScreenScript;
 
-    public void Play()
+	public void Play()
     {
         GameManager.instance.LoadLastLevel();
     }
@@ -37,7 +39,12 @@ public class MainMenuScript : MonoBehaviour
 
     public void QuitGame()
     {
+        PlayerPrefs.SetInt("maxLevelIndex", GameManager.instance.getMaxLevelIndex());
         Application.Quit();
     }
 
+    public void Delete()
+	{
+        PlayerPrefs.DeleteAll();
+    }
 }

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    int maxLevelIndex = 9;  //Index 1 is equal to Level 1
+    int maxLevelIndex = 1;  //Index 1 is equal to Level 1
 
     public static GameManager m_instance;
     public static GameManager instance
@@ -21,7 +21,15 @@ public class GameManager : MonoBehaviour
         }
 	}
 
-    public void LoadMaxLevel()
+	private void Awake()
+	{
+        if (PlayerPrefs.HasKey("maxLevelIndex"))
+        {
+            maxLevelIndex = PlayerPrefs.GetInt("maxLevelIndex");
+        }
+    }
+
+	public void LoadMaxLevel()
 	{
         SceneManager.LoadScene(maxLevelIndex);
     }
@@ -55,7 +63,7 @@ public class GameManager : MonoBehaviour
     public void LoadNextLevel()
     {
         int currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
-        if (currentLevelIndex + 2 > SceneManager.sceneCountInBuildSettings)
+        if (currentLevelIndex + 1 > SceneManager.sceneCountInBuildSettings - 1)
 		{
             SceneManager.LoadScene(0);
             return;
