@@ -9,9 +9,12 @@ public class ProjectileBehaviousScript : MonoBehaviour
     Rigidbody2D projectileRigidbody;
     bool isReflected;
 
+    [SerializeField]
+    AudioSource audioSource;
     void Start()
     {
         projectileRigidbody = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -27,7 +30,10 @@ public class ProjectileBehaviousScript : MonoBehaviour
         if (collision.collider.tag != "Sword")
             Destroy(gameObject);
 		else
+		{
             isReflected = !isReflected;
+            audioSource.Play();
+		}
 	}
 
 }
