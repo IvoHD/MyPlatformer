@@ -24,7 +24,7 @@ public class SettingsScreenScript : MonoBehaviour
 	[SerializeField]
 	Slider volumeSlider;
 	[SerializeField]
-	TMP_Text volumeText;
+	TMP_Text volumeLabel;
 
 	private void Start()
 	{
@@ -38,7 +38,6 @@ public class SettingsScreenScript : MonoBehaviour
 			{
 				foundRes = true;
 				selectedResIndex = i;
-				UpdateResLabel();
 			}
 		}
 
@@ -47,9 +46,8 @@ public class SettingsScreenScript : MonoBehaviour
 			resItems.Insert(0, new ResItem(Screen.width, Screen.height));
 
 			selectedResIndex = 0;
-
-			UpdateResLabel();
 		}
+		UpdateResLabel();
 
 		//sets current Audiovalue
 		if (PlayerPrefs.HasKey("MasterVol"))
@@ -60,9 +58,10 @@ public class SettingsScreenScript : MonoBehaviour
 		}
 		else
 		{
-			mixer.SetFloat("MasterVol", 20);
-			volumeSlider.value = 20;
+			mixer.SetFloat("MasterVol", 0);
+			volumeSlider.value = 0;
 		}
+		UpdateVolumeLabel();
 	}
 
 	public void LowerRes()
@@ -92,11 +91,11 @@ public class SettingsScreenScript : MonoBehaviour
 		resLabel.text = resItems[selectedResIndex].width.ToString() + " X " + resItems[selectedResIndex].height.ToString();
 	}
 
-	 
-	public void setVolume()
+
+	public void UpdateVolumeLabel()
 	{
 
-		volumeText.text = Mathf.RoundToInt(volumeSlider.value + 80).ToString();
+		volumeLabel.text = Mathf.RoundToInt(volumeSlider.value + 80).ToString();
 	}
 
 	public void ApplyChanges()
