@@ -78,6 +78,19 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(currentLevelIndex + 1);
     }
 
+    public void SaveSessionProgress()
+	{
+        PlayerPrefs.SetInt("maxLevelIndex", maxLevelIndex);
+    }
+
+    /// <summary>
+    /// deletes level prefs and resets values in current session
+    /// </summary>
+    public void DeleteLevelProgress()
+	{
+        maxLevelIndex = 1;
+	}
+
     public void instantiate() {}
 }
 

@@ -36,6 +36,7 @@ public class MainMenuScript : MonoBehaviour
     public void OpenLevels()
     {
         levelsScreen.SetActive(true);
+        levelsScreenScript.UpdateLevelProgression();
     }
 
     public void CloseLevels()
@@ -45,12 +46,12 @@ public class MainMenuScript : MonoBehaviour
 
     public void QuitGame()
     {
-        PlayerPrefs.SetInt("maxLevelIndex", GameManager.instance.getMaxLevelIndex());
+        GameManager.instance.SaveSessionProgress();
         Application.Quit();
     }
 
     public void Delete()
 	{
-        PlayerPrefs.DeleteAll();
+        GameManager.instance.DeleteLevelProgress();
     }
 }
