@@ -42,9 +42,11 @@ public class PlayerMovementScript : MonoBehaviour
             JumpAmount = currJumpAmount = 2;
         else
             JumpAmount = currJumpAmount = 1;
+
+        Cursor.visible = false;
     }
 
-	void Update()
+    void Update()
     {
 
         if (healthStateScript.isAlive)
