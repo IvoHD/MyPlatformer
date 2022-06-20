@@ -13,8 +13,8 @@ public class PlayerMovementScript : MonoBehaviour
     Animator animator;
     Vector2 moveInput;
     Rigidbody2D playerRigidbody;
-    CapsuleCollider2D capsuleCollider;
-    BoxCollider2D boxCollider;
+    CapsuleCollider2D capsuleCollider;  //body
+    BoxCollider2D boxCollider;          //feet
 
     float jumpHeight = 8f;
     int JumpAmount;
@@ -71,7 +71,7 @@ public class PlayerMovementScript : MonoBehaviour
 	{
         if (timeSinceJump > 0)
             return;
-        if (boxCollider.IsTouchingLayers(LayerMask.GetMask("Ground", "Climbing", "Towers", "Climbing")))
+        if (boxCollider.IsTouchingLayers(LayerMask.GetMask("Ground", "Climbing", "Towers")))
             currJumpAmount = JumpAmount;
 	}
 
