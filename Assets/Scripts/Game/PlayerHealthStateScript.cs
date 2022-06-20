@@ -53,6 +53,11 @@ public class PlayerHealthStateScript : MonoBehaviour, IKillable
     /// </summary>
 	public void DestroyThisGameObject()
     {
-        Destroy(gameObject);
+        ReloadScene();
+    }
+
+    public void ReloadScene()
+	{
+        GameManager.instance.ReloadScene();
     }
 }

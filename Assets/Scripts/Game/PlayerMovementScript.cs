@@ -123,20 +123,20 @@ public class PlayerMovementScript : MonoBehaviour
         /// <summary>
         /// Checks if Player is climbing
         /// </summary>
-        void OnClimb()
+    void OnClimb()
 	{
         if (!capsuleCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
-		{
+	    {
             animator.SetBool("IsClimbing", false);
             playerRigidbody.gravityScale = gravity;
             return;
-		}
+	    }
 
         if (Mathf.Abs(playerRigidbody.velocity.y) > Mathf.Epsilon)
-		{
+	    {
             animator.SetBool("IsRunning", false);
             animator.SetBool("IsClimbing", true);
-		}
+	    }
         HandleJumpOnLadder();
     }
 

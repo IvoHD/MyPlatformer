@@ -12,10 +12,6 @@ public class LevelExitScript : MonoBehaviour
 
 	void LoadNextLevel()
 	{
-		int currSceneIndex = SceneManager.GetActiveScene().buildIndex;
-		if (currSceneIndex + 1 > SceneManager.sceneCountInBuildSettings)
-			SceneManager.LoadScene(0);
-
-		SceneManager.LoadScene(currSceneIndex + 1);
+		GameManager.instance.LoadNextLevel();
 	}
 }
