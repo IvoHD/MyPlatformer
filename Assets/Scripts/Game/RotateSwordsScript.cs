@@ -7,19 +7,37 @@ public class RotateSwordsScript : MonoBehaviour
 {
     Transform lSword;
     Transform rSword;
-    bool isFacingRight;
+    Transform player;
+
+    Transform swords; 
+
+    PlayerHealthStateScript playerHealthStateScript;
+
     bool lSwordDownrSwordUp = true;
     // Start is called before the first frame update
     void Start()
     {
         lSword = GameObject.Find("lSword").transform;
         rSword = GameObject.Find("rSword").transform;
+        swords = GameObject.Find("Swords").GetComponent<Transform>();
+
+        GameObject playerObj = GameObject.Find("Jack (Player)");
+        player = playerObj.GetComponent<Transform>();
+        playerHealthStateScript = playerObj.GetComponent <PlayerHealthStateScript>();
+
+        //if swords can't be found, destroy this component
+        if(lSword is null || rSword is null)
+            Destroy(this);
     }
 
     // Update is called once per frame
     void Update()
     {
-        OnRotate(null);
+        //destroys player input component when player died
+        if(!playerHealthStateScript.isAlive)
+            Destroy(gameObject.GetComponent<PlayerInput>());
+
+        swords.position = player.position;
     }
 
     /// <summary>
@@ -28,19 +46,10 @@ public class RotateSwordsScript : MonoBehaviour
     /// <param name="value"></param>
     void OnRotate(InputValue value)
 	{
-        if(value is not null)
-            lSwordDownrSwordUp = !lSwordDownrSwordUp;
+        lSwordDownrSwordUp = !lSwordDownrSwordUp;
 
-        isFacingRight = gameObject.transform.localScale.x > 0;
-        if (isFacingRight)
-        {
-            lSword.rotation = Quaternion.Euler(0, 0, lSwordDownrSwordUp ? 180 : 0);
-            rSword.rotation = Quaternion.Euler(0, 0, lSwordDownrSwordUp ? 0 : 180);
-        }
-        else
-        {
-            lSword.rotation = Quaternion.Euler(0, 0, lSwordDownrSwordUp ? 0 : 180);
-            rSword.rotation = Quaternion.Euler(0, 0, lSwordDownrSwordUp ? 180 : 0);
-        }
+        lSword.rotation = Quaternion.Euler(0, 0, lSwordDownrSwordUp ? 180 : 0);
+        rSword.rotation = Quaternion.Euler(0, 0, lSwordDownrSwordUp ? 0 : 180);
+      
     }
 }
