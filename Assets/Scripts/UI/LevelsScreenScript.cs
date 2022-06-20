@@ -13,6 +13,9 @@ public class LevelsScreenScript : MonoBehaviour
         GameManager.instance.LoadLevel(levelIndex);
 	}
 
+	/// <summary>
+	/// display all "unlocked" levels
+	/// </summary>
 	public void UpdateLevelProgression()
 	{
 		foreach (Button button in buttons)

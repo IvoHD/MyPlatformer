@@ -8,7 +8,9 @@ public class PauseMenuScript : MonoBehaviour
     [SerializeField]
     GameObject pauseMenu;
 
-    //GameObject not implemented yet
+    /// <summary>
+    /// Game resumes or pauses depending on current state
+    /// </summary>
 	void OnEscape()
 	{
         bool isActive = pauseMenu.activeInHierarchy;

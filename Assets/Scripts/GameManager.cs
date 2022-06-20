@@ -60,11 +60,17 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(levelIndex);
 	}
 
+    /// <summary>
+    /// Reloads current scene
+    /// </summary>
     public void ReloadScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    /// <summary>
+    /// Loads next level
+    /// </summary>
     public void LoadNextLevel()
     {
         int currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
@@ -78,6 +84,9 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(currentLevelIndex + 1);
     }
 
+    /// <summary>
+    /// Saves game progress
+    /// </summary>
     public void SaveSessionProgress()
 	{
         PlayerPrefs.SetInt("maxLevelIndex", maxLevelIndex);
@@ -91,6 +100,9 @@ public class GameManager : MonoBehaviour
         maxLevelIndex = 1;
 	}
 
+    /// <summary>
+    /// function to instantiate (only) instance
+    /// </summary>
     public void instantiate() {}
 }
 

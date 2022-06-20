@@ -27,6 +27,9 @@ public class EnemyMovementScript : MonoBehaviour
 		}
     }
 
+    /// <summary>
+    /// Flips sprite depending on which derection the enemy is facing
+    /// </summary>
     void FlipSprite()
     {
         transform.localScale = new Vector2(-transform.localScale.x, 1);

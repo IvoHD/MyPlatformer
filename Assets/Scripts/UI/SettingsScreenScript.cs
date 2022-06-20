@@ -64,6 +64,9 @@ public class SettingsScreenScript : MonoBehaviour
 		UpdateVolumeLabel();
 	}
 
+	/// <summary>
+	/// decrements resolution preset and displays new value
+	/// </summary>
 	public void LowerRes()
 	{
 		selectedResIndex--;
@@ -75,6 +78,9 @@ public class SettingsScreenScript : MonoBehaviour
 		UpdateResLabel();
 	}
 
+	/// <summary>
+	/// increments resolution preset and displays new value
+	/// </summary>
 	public void IncreaseRes()
 	{
 		selectedResIndex++;
@@ -91,13 +97,15 @@ public class SettingsScreenScript : MonoBehaviour
 		resLabel.text = resItems[selectedResIndex].width.ToString() + " X " + resItems[selectedResIndex].height.ToString();
 	}
 
-
 	public void UpdateVolumeLabel()
-	{
-
+	{ 
 		volumeLabel.text = Mathf.RoundToInt(volumeSlider.value + 80).ToString();
 	}
 
+
+	/// <summary>
+	/// Save all graphic and audio changes
+	/// </summary>
 	public void ApplyChanges()
 	{
 		Screen.SetResolution(resItems[selectedResIndex].width, resItems[selectedResIndex].height, fullScreenToggle.isOn);

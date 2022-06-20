@@ -48,7 +48,7 @@ public class PlayerMovementScript : MonoBehaviour
 
     void Update()
     {
-
+        //deactivates movement when player is dead
         if (healthStateScript.isAlive)
 		{
             Run();
@@ -56,15 +56,17 @@ public class PlayerMovementScript : MonoBehaviour
                 timeSinceJump -= Time.deltaTime;
             CheckGrounding();
             OnClimb();
-            OnJump(null);
+            DynamicJump();
         }
         else
 		{
-            JumpAmount = 0;
+            Destroy(gameObject.GetComponent<PlayerInput>());
 		}
     }
 
-
+    /// <summary>
+    /// resets currJumpAmount when player is grounded and not in a jump
+    /// </summary>
 	void CheckGrounding()
 	{
         if (timeSinceJump > 0)
@@ -77,7 +79,6 @@ public class PlayerMovementScript : MonoBehaviour
 
 	void Run()
 	{
-        //disables the possibilty to run upwards/downwards
 		playerRigidbody.velocity = new Vector2(moveInput.x * runSpeed * (isRunning ? 1.5f : 1), playerRigidbody.velocity.y);
 
         animator.SetBool("IsRunning", IsMoving());
@@ -95,24 +96,21 @@ public class PlayerMovementScript : MonoBehaviour
            transform.localScale = new Vector2(Mathf.Sign(playerRigidbody.velocity.x) * 2, 2f);
     }
 
+    /// <summary>
+    /// gets vector from input action
+    /// </summary>
+    /// <param name="value"></param>
     void OnMove(InputValue value)
 	{
         moveInput = value.Get<Vector2>();
 	}
 
+    /// <summary>
+    /// makes the player jump if all conditions for jumping are met
+    /// </summary>
+    /// <param name="value"></param>
     void OnJump(InputValue value)
     {
-        //Dynamic jump
-        if (playerRigidbody.velocity.y < 0)
-        {
-            playerRigidbody.velocity += Vector2.down * gravity * fallingFactor * Time.deltaTime;
-        }
-        else if (playerRigidbody.velocity.y > 0 && Input.GetKey(KeyCode.Space))
-            playerRigidbody.velocity += Vector2.up * holdSpaceFactor * gravity * Time.deltaTime;
-
-        if (value is null)
-            return;
-
         if (!(currJumpAmount > 0))
             return;
         if(timeSinceJump > 0)
@@ -127,10 +125,22 @@ public class PlayerMovementScript : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Better jumping inspired by: https://www.youtube.com/watch?v=7KiK0Aqtmzc, https://www.youtube.com/watch?v=hG9SzQxaCm8&t=0s
+    /// </summary>
+    void DynamicJump()
+	{
+        if (playerRigidbody.velocity.y < 0)
+        {
+            playerRigidbody.velocity += Vector2.down * gravity * fallingFactor * Time.deltaTime;
+        }
+        else if (playerRigidbody.velocity.y > 0 && Input.GetKey(KeyCode.Space))
+            playerRigidbody.velocity += Vector2.up * holdSpaceFactor * gravity * Time.deltaTime;
 
-        /// <summary>
-        /// Checks if Player is climbing
-        /// </summary>
+    }
+    /// <summary>
+    /// Checks if Player is climbing
+    /// </summary>
     void OnClimb()
 	{
         if (!capsuleCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))

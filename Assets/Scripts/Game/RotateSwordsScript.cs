@@ -22,6 +22,10 @@ public class RotateSwordsScript : MonoBehaviour
         OnRotate(null);
     }
 
+    /// <summary>
+    /// rotates sword
+    /// </summary>
+    /// <param name="value"></param>
     void OnRotate(InputValue value)
 	{
         if(value is not null)

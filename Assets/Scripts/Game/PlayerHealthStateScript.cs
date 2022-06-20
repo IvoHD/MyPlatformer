@@ -49,7 +49,7 @@ public class PlayerHealthStateScript : MonoBehaviour, IKillable
     }
 
     /// <summary>
-    /// Destroys this GameObject
+    /// Destroys player gameObject
     /// </summary>
 	public void DestroyThisGameObject()
     {

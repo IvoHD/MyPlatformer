@@ -5,7 +5,7 @@ using UnityEngine;
 public class ProjectileBehaviousScript : MonoBehaviour
 {
     float bulletspeed = 7f;
-    public bool isFacingLeft;
+    bool isFacingLeft;
     Rigidbody2D projectileRigidbody;
     bool isReflected;
 
@@ -34,6 +34,11 @@ public class ProjectileBehaviousScript : MonoBehaviour
             isReflected = !isReflected;
             audioSource.Play();
 		}
+	}
+
+    public void SetIsFacingLeft(bool isfacingleft)
+	{
+        isFacingLeft = isfacingleft;
 	}
 
 }

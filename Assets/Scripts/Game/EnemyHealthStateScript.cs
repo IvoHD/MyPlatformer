@@ -22,7 +22,10 @@ public class EnemyHealthStateScript : MonoBehaviour, IKillable
         if (collision.collider.tag == "Projectile" || collision.collider.tag == "Sword")
             Kill();
     }
-
+    
+    /// <summary>
+    /// kills enemy
+    /// </summary>
 	public void Kill()
     {
         isAlive = false;
@@ -32,6 +35,9 @@ public class EnemyHealthStateScript : MonoBehaviour, IKillable
         Invoke("DestroyThisGameObject", 1f);
     }
 
+    /// <summary>
+    /// Destroys enemy gameObject
+    /// </summary>
     public void DestroyThisGameObject()
     {
         Destroy(gameObject);

@@ -35,6 +35,6 @@ public class ProjectileScript : MonoBehaviour
 	{ 
         GameObject obj = Instantiate(projectile, transform.position, gameObject.transform.rotation);
         //sets parent direction
-        obj.GetComponent<ProjectileBehaviousScript>().isFacingLeft = gameObject.transform.parent.gameObject.transform.localScale.x > 0; ;
+        obj.GetComponent<ProjectileBehaviousScript>().SetIsFacingLeft(gameObject.transform.parent.gameObject.transform.localScale.x > 0);
 	}
 } 
