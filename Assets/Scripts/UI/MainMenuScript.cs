@@ -12,7 +12,13 @@ public class MainMenuScript : MonoBehaviour
     [SerializeField]
     LevelsScreenScript levelsScreenScript;
 
-	public void Play()
+	private void Start()
+	{
+        //"instantiate" singelton, so music start playing
+        GameManager.instance.instantiate();
+    }
+
+    public void Play()
     {
         GameManager.instance.LoadLastLevel();
     }

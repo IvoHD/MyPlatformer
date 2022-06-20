@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
         }
 	}
 
-	private void Awake()
+	void Awake()
 	{
         if (PlayerPrefs.HasKey("maxLevelIndex"))
         {
@@ -29,7 +29,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-	public void LoadMaxLevel()
+	void Start()
+	{
+        GameObject.Find("BackGroundMusic").GetComponent<BackgroundMusicScript>().PlayMusic();
+    }
+
+    public void LoadMaxLevel()
 	{
         SceneManager.LoadScene(maxLevelIndex);
     }
@@ -72,6 +77,8 @@ public class GameManager : MonoBehaviour
             maxLevelIndex = currentLevelIndex + 1;
         SceneManager.LoadScene(currentLevelIndex + 1);
     }
+
+    public void instantiate() {}
 }
 
 
