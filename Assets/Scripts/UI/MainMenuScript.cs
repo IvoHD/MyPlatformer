@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-///followed tutorial https://www.youtube.com/watch?v=d6GtGbI-now
+//followed tutorial https://www.youtube.com/watch?v=76WOa6IU_s8&
 public class MainMenuScript : MonoBehaviour
 {
     [SerializeField]
