@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 //followed tutorial https://www.youtube.com/watch?v=76WOa6IU_s8&
@@ -12,11 +13,20 @@ public class MainMenuScript : MonoBehaviour
     GameObject levelsScreen;
     [SerializeField]
     LevelsScreenScript levelsScreenScript;
+    [SerializeField]
+    AudioMixer mixer;
 
 	private void Start()
 	{
         //"instantiate" singelton, so music start playing
         GameManager.instance.instantiate();
+
+
+        //sets current Audiovalue
+        if (PlayerPrefs.HasKey("MasterVol"))
+            mixer.SetFloat("MasterVol", PlayerPrefs.GetFloat("MasterVol"));
+        else
+            mixer.SetFloat("MasterVol", 0);
     }
     
     /// <summary>

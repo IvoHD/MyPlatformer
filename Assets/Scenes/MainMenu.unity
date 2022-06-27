@@ -2466,6 +2466,7 @@ MonoBehaviour:
   settingsScreen: {fileID: 2043154858}
   levelsScreen: {fileID: 262981944}
   levelsScreenScript: {fileID: 262981948}
+  mixer: {fileID: 24100000, guid: 4dc42290df164b048bdd360517a06e6e, type: 2}
 --- !u!1 &870175153
 GameObject:
   m_ObjectHideFlags: 0

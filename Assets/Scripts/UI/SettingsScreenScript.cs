@@ -49,18 +49,10 @@ public class SettingsScreenScript : MonoBehaviour
 		}
 		UpdateResLabel();
 
-		//sets current Audiovalue
-		if (PlayerPrefs.HasKey("MasterVol"))
-		{
-			float valueOnBoot = PlayerPrefs.GetFloat("MasterVol");
-			mixer.SetFloat("MasterVol", valueOnBoot);
-			volumeSlider.value = valueOnBoot;
-		}
-		else
-		{
-			mixer.SetFloat("MasterVol", 0);
-			volumeSlider.value = 0;
-		}
+		float f;
+		mixer.GetFloat("MasterVol", out f);
+		volumeSlider.value = f;
+
 		UpdateVolumeLabel();
 	}
 
