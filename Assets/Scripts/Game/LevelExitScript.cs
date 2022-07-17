@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using Assets.Scripts.Enums;
 
 public class LevelExitScript : MonoBehaviour
 {
@@ -12,6 +10,7 @@ public class LevelExitScript : MonoBehaviour
 
 	void LoadNextLevel()
 	{
+		ScoreKeepScript.instance.IncreaseScore(Score.NextLevel);
 		GameManager.instance.LoadNextLevel();
 	}
 }

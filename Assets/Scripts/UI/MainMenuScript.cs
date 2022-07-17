@@ -18,9 +18,8 @@ public class MainMenuScript : MonoBehaviour
 
 	private void Start()
 	{
-        //"instantiate" singelton, so music start playing
+        //"instantiate" singeltons
         GameManager.instance.instantiate();
-
 
         //sets current Audiovalue
         if (PlayerPrefs.HasKey("MasterVol"))
