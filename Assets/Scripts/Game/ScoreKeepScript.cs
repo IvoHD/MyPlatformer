@@ -23,19 +23,32 @@ public class ScoreKeepScript : MonoBehaviour
 
     void Awake()
     {
-        //playerprefs
-        currScore = 0;
+        if (PlayerPrefs.HasKey("score"))
+        {
+            currScore = PlayerPrefs.GetInt("score");
+        }
+
         scoreTextScript = GameObject.Find("ScoreCanvas").GetComponent<ScoreTextScript>();
+        scoreTextScript.SetNewScore(currScore);
     }
 
-    public void IncreaseScore(Score toAdd = 0)
-	{
-        if (toAdd > 0)
-            currScore += (int) toAdd;
+    public void IncreaseScore(Score toAdd)
+    { 
+        currScore += (int) toAdd;
         Debug.Log(currScore);
         scoreTextScript.SetNewScore(currScore);
+        PlayerPrefs.SetInt("score", currScore);
 	}
 
+    public void resetScore()
+	{
+        currScore = 0;
+	}
 
+    public int GetScore()
+	{
+        return currScore;
+	}
 
+    public void instatiate() {}
 }

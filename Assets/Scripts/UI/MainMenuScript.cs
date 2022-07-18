@@ -20,6 +20,7 @@ public class MainMenuScript : MonoBehaviour
 	{
         //"instantiate" singeltons
         GameManager.instance.instantiate();
+        ScoreKeepScript.instance.instatiate();
 
         //sets current Audiovalue
         if (PlayerPrefs.HasKey("MasterVol"))
@@ -83,6 +84,6 @@ public class MainMenuScript : MonoBehaviour
     /// </summary>
     public void Delete()
 	{
-        GameManager.instance.DeleteLevelProgress();
+        GameManager.instance.DeleteProgress();
     }
 }

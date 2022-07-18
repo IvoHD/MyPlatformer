@@ -90,14 +90,16 @@ public class GameManager : MonoBehaviour
     public void SaveSessionProgress()
 	{
         PlayerPrefs.SetInt("maxLevelIndex", maxLevelIndex);
+        PlayerPrefs.SetInt("score", ScoreKeepScript.instance.GetScore());
     }
 
     /// <summary>
     /// deletes level prefs and resets values in current session
     /// </summary>
-    public void DeleteLevelProgress()
+    public void DeleteProgress()
 	{
         maxLevelIndex = 1;
+        ScoreKeepScript.instance.resetScore();
 	}
 
     /// <summary>
