@@ -18,9 +18,7 @@ public class ScoreTextScript : MonoBehaviour
 			DontDestroyOnLoad(gameObject);
 		}
 		else
-		{
 			Destroy(gameObject);
-		}
 	}
 
 	void Start()

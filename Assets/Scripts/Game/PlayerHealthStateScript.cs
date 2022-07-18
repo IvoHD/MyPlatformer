@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Enums;
 
 public class PlayerHealthStateScript : MonoBehaviour, IKillable
 {
@@ -33,7 +32,6 @@ public class PlayerHealthStateScript : MonoBehaviour, IKillable
 	/// </summary>
 	public void Kill()
     {
-
         if (isAlive)
         {
             animator.SetTrigger("Killed");
@@ -42,6 +40,9 @@ public class PlayerHealthStateScript : MonoBehaviour, IKillable
             playerRigidbody.sharedMaterial = deathMaterial;
 
             particleSystem.Play();
+
+            SoundManager.instance.PlaySound(Sound.Death);
+            ScoreKeepScript.instance.IncreaseScore(Score.Death);
 
             Invoke("DestroyThisGameObject", 2f);
         }

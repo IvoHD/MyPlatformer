@@ -35,7 +35,6 @@ public class ScoreKeepScript : MonoBehaviour
     public void IncreaseScore(Score toAdd)
     { 
         currScore += (int) toAdd;
-        Debug.Log(currScore);
         scoreTextScript.SetNewScore(currScore);
         PlayerPrefs.SetInt("score", currScore);
 	}

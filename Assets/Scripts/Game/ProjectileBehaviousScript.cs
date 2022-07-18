@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Enums;
 
 public class ProjectileBehaviousScript : MonoBehaviour
 {
@@ -8,13 +7,9 @@ public class ProjectileBehaviousScript : MonoBehaviour
     bool isFacingLeft;
     Rigidbody2D projectileRigidbody;
     bool isReflected;
-
-    [SerializeField]
-    AudioSource audioSource;
     void Start()
     {
         projectileRigidbody = GetComponent<Rigidbody2D>();
-        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -32,7 +27,8 @@ public class ProjectileBehaviousScript : MonoBehaviour
 		else
 		{
             isReflected = !isReflected;
-            audioSource.Play();
+            SoundManager.instance.PlaySound(Sound.Reflect);
+            ScoreKeepScript.instance.IncreaseScore(Score.Reflect);
 		}
 	}
 

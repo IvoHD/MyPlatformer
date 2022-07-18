@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Enums;
 
 public class EnemyHealthStateScript : MonoBehaviour, IKillable
 {
@@ -32,6 +31,10 @@ public class EnemyHealthStateScript : MonoBehaviour, IKillable
 
         animator.enabled = false;
         enemySprite.color = deathColor;
+
+        SoundManager.instance.PlaySound(Sound.Kill);
+        ScoreKeepScript.instance.IncreaseScore(Score.Kill);
+
         Invoke("DestroyThisGameObject", 1f);
     }
 

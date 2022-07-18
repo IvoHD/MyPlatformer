@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Assets.Scripts.Enums;
 
 public class RotateSwordsScript : MonoBehaviour
 {
@@ -50,6 +49,5 @@ public class RotateSwordsScript : MonoBehaviour
 
         lSword.rotation = Quaternion.Euler(0, 0, lSwordDownrSwordUp ? 180 : 0);
         rSword.rotation = Quaternion.Euler(0, 0, lSwordDownrSwordUp ? 0 : 180);
-      
     }
 }

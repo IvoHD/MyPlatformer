@@ -23,8 +23,10 @@ public class EnemyMovementScript : MonoBehaviour
         else
 		{
             enemyRigidbody.velocity = Vector2.zero;
+            Destroy(enemyRigidbody);
             Destroy(capsuleCollider);
-		}
+            Destroy(this);
+        }
     }
 
     /// <summary>
