@@ -19,12 +19,13 @@ public class ScoreKeepScript : MonoBehaviour
     }
 
     int currScore;
+    ScoreTextScript scoreTextScript;
 
-    // Start is called before the first frame update
-    void awake()
+    void Awake()
     {
         //playerprefs
         currScore = 0;
+        scoreTextScript = GameObject.Find("ScoreCanvas").GetComponent<ScoreTextScript>();
     }
 
     public void IncreaseScore(Score toAdd = 0)
@@ -32,6 +33,7 @@ public class ScoreKeepScript : MonoBehaviour
         if (toAdd > 0)
             currScore += (int) toAdd;
         Debug.Log(currScore);
+        scoreTextScript.SetNewScore(currScore);
 	}
 
 
