@@ -3,11 +3,19 @@ using UnityEngine;
 public class BackgroundMusicScript : MonoBehaviour
 {
 	AudioSource audioSource;
-	void Awake()
-	{
-		DontDestroyOnLoad(gameObject);	
-	}
 
+	static BackgroundMusicScript instance;
+
+	private void Awake()
+	{
+		if (instance is null)
+		{
+			instance = this;
+			DontDestroyOnLoad(gameObject);
+		}
+		else
+			Destroy(gameObject);
+	}
 
 	public void PlayMusic()
 	{

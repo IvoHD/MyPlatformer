@@ -18,10 +18,6 @@ public class MainMenuScript : MonoBehaviour
 
 	private void Start()
 	{
-        //"instantiate" singeltons
-        GameManager.instance.instantiate();
-        ScoreKeepScript.instance.instatiate();
-
         //sets current Audiovalue
         if (PlayerPrefs.HasKey("MasterVol"))
             mixer.SetFloat("MasterVol", PlayerPrefs.GetFloat("MasterVol"));

@@ -12,6 +12,7 @@ TagManager:
   - Projectile
   - Spikes
   - Sword
+  - Coin
   layers:
   - Default
   - TransparentFX

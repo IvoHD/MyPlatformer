@@ -9,7 +9,7 @@ public class SoundManager : MonoBehaviour
 	{
 		if (instance is null)
 		{
-			instance = base.GetComponent<SoundManager>();
+			instance = this;
 			DontDestroyOnLoad(gameObject);
 		}
 		else

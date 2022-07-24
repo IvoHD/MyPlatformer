@@ -1,6 +1,6 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Assets.Scripts.Enums;
 
 public class RotateSwordsScript : MonoBehaviour
 {
@@ -16,18 +16,24 @@ public class RotateSwordsScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        lSword = GameObject.Find("lSword").transform;
-        rSword = GameObject.Find("rSword").transform;
-        swords = GameObject.Find("Swords").GetComponent<Transform>();
+        //if swords are inactive, destroy this component
+        try
+        {
+
+            lSword = GameObject.Find("lSword").transform;
+            rSword = GameObject.Find("rSword").transform;
+            swords = GameObject.Find("Swords").GetComponent<Transform>();
+
+        }
+        catch (Exception)
+        {
+            Destroy(this);
+        }
 
         GameObject playerObj = GameObject.Find("Jack (Player)");
         player = playerObj.GetComponent<Transform>();
-        playerHealthStateScript = playerObj.GetComponent <PlayerHealthStateScript>();
-
-        //if swords can't be found, destroy this component
-        if(lSword is null || rSword is null)
-            Destroy(this);
-    }
+        playerHealthStateScript = playerObj.GetComponent<PlayerHealthStateScript>();
+	}
 
     // Update is called once per frame
     void Update()

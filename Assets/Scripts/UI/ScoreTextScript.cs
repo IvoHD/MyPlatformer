@@ -21,11 +21,6 @@ public class ScoreTextScript : MonoBehaviour
 			Destroy(gameObject);
 	}
 
-	void Start()
-	{
-		DontDestroyOnLoad(gameObject);
-	}
-
 	public void SetNewScore(int score)
 	{
 		label.text = score.ToString();

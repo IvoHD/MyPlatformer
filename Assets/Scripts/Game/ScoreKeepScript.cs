@@ -42,12 +42,17 @@ public class ScoreKeepScript : MonoBehaviour
     public void resetScore()
 	{
         currScore = 0;
-	}
+        PlayerPrefs.SetInt("score", currScore);
+    }
 
     public int GetScore()
 	{
         return currScore;
 	}
 
-    public void instatiate() {}
+	private void OnLevelWasLoaded(int level)
+	{
+        scoreTextScript.SetNewScore(currScore);
+	}
+
 }
