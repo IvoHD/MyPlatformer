@@ -23,4 +23,10 @@ namespace Assets.Scripts.Enums
 		Coin,
 		NextLevel,
 	}
+
+	public enum ObjectType
+	{ 
+		Coin,
+		Slime
+	}
 }

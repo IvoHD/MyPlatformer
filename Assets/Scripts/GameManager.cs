@@ -1,3 +1,4 @@
+using Assets.Scripts.Enums;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ public class GameManager : MonoBehaviour
     int maxLevelIndex = 1;  //Index 1 is equal to Level 1
 
     [SerializeField]
-    GameObject coinObj;
+    List<GameObject> objects;
 
     public static GameManager instance;
 
@@ -107,65 +108,74 @@ public class GameManager : MonoBehaviour
         JSONSave.Reset();
     }
 
-    private void OnLevelWasLoaded(int level)
+    private void OnLevelWasLoaded(int levelIndex)
     {
-        if (level > 10 || level < 1)
-            return;
-        foreach (Coin coin in JSONSave.GetCurrentState())
-            Instantiate(coinObj, coin._pos, new Quaternion(0, 0, 0, 0));
-    }
+		if (levelIndex > 10 || levelIndex < 1)
+			return;
+        foreach (Object obj in JSONSave.GetCurrentState())
+			Instantiate(objects[(int)obj._type], obj._pos, new Quaternion(0, 0, 0, 0));
+	}
 
-    public void Save()
+	private void Update()
+	{
+        if (Input.GetKeyDown(KeyCode.N))
+            LoadNextLevel();
+	}
+
+	public void Save()
     {
         JSONSave.Save();
     }
 
     public void Start()
     {
-        if (!File.Exists(Application.persistentDataPath + "DefaultCoinState.json"))
-        {
-            TextAsset defaultCoinState = Resources.Load("DefaultCoinState") as TextAsset;
-            StreamWriter writer = new StreamWriter(Application.persistentDataPath + Path.AltDirectorySeparatorChar + "DefaultCoinState.json");
-            writer.Write(defaultCoinState.text);
-            writer.Close();
+		if (!File.Exists(Application.persistentDataPath + "DefaultGameState.json"))
+		{
+			TextAsset defaultCoinState = Resources.Load("DefaultGameState") as TextAsset;
+			StreamWriter writer = new StreamWriter(Application.persistentDataPath + Path.AltDirectorySeparatorChar + "DefaultGameState.json");
+			writer.Write(defaultCoinState.text);
+			writer.Close();
 
-        }
+		}
 
-        if (!File.Exists(Application.persistentDataPath + "CoinState.json"))
-        {
-            StreamWriter writer = new StreamWriter(Application.persistentDataPath + Path.AltDirectorySeparatorChar + "CoinState.json");
-            StreamReader reader = new StreamReader(Application.persistentDataPath + Path.AltDirectorySeparatorChar + "DefaultCoinState.json");
-            writer.Write(reader.ReadToEnd());
-            writer.Close();
-        }
-
-    }
+		if (!File.Exists(Application.persistentDataPath + "GameState.json"))
+		{
+			StreamWriter writer = new StreamWriter(Application.persistentDataPath + Path.AltDirectorySeparatorChar + "GameState.json");
+			StreamReader reader = new StreamReader(Application.persistentDataPath + Path.AltDirectorySeparatorChar + "DefaultGameState.json");
+			writer.Write(reader.ReadToEnd());
+			writer.Close();
+		}
+	}
 }
 
 public class JSONSave 
 {
-    static string path = Application.persistentDataPath + Path.AltDirectorySeparatorChar + "CoinState.json";
-    static string defaultStatePath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + "DefaultCoinState.json";
+    static string path = Application.persistentDataPath + Path.AltDirectorySeparatorChar + "GameState.json";
+    static string defaultStatePath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + "DefaultGameState.json";
 
     public static void Save()
     {
         int index = SceneManager.GetActiveScene().buildIndex - 1;
-        List<List<Coin>> coinList = new List<List<Coin>>();
+        List<List<Object>> objectList = new List<List<Object>>();
 
         //gets curret game state
         StreamReader reader = new StreamReader(path);
         string json = reader.ReadToEnd();
         reader.Close();
-        coinList = JsonHelper.FromJson(json);
+        objectList = JsonHelper.FromJson(json);
 
-        coinList[index] = new List<Coin>();
+		objectList[index] = new List<Object>();
 
         GameObject[] Coins = GameObject.FindGameObjectsWithTag("Coin");
+        GameObject[] Slimes = GameObject.FindGameObjectsWithTag("Enemies");
 
-        foreach (GameObject coin in Coins)
-            coinList[index].Add(new Coin(coin.transform.position));
 
-        json = JsonHelper.ToJson(coinList, true);
+        foreach (GameObject obj in Coins)
+            objectList[index].Add(new Object(obj.transform.position, ObjectType.Coin));
+        foreach (GameObject obj in Slimes)
+            objectList[index].Add(new Object(obj.transform.position, ObjectType.Slime));
+
+        json = JsonHelper.ToJson(objectList, true);
 
         StreamWriter writer = new StreamWriter(path);
 
@@ -173,17 +183,17 @@ public class JSONSave
         writer.Close();
     }
 
-    public static List<Coin> GetCurrentState()
+    public static List<Object> GetCurrentState()
     {
         int index = SceneManager.GetActiveScene().buildIndex - 1;
         StreamReader reader = new StreamReader(path);
         string json = reader.ReadToEnd();
         reader.Close();
 
-        List<List<Coin>> coinList = JsonHelper.FromJson(json);
+        List<List<Object>> objectList = JsonHelper.FromJson(json);
 
 
-        return coinList[index];
+        return objectList[index];
        
     }
 
@@ -200,30 +210,30 @@ public class JSONSave
 
 public static class JsonHelper
 {
-    public static List<List<Coin>> FromJson(string json)
+    public static List<List<Object>> FromJson(string json)
     {
         Wrapper2 wrapper = JsonUtility.FromJson<Wrapper2>(json);
-        List<List<Coin>> coinList = new List<List<Coin>>(10);
+        List<List<Object>> objectList = new List<List<Object>>(10);
 
         if (wrapper is null)
-            return coinList;
+            return objectList;
 
         foreach (Wrapper1 list in wrapper.Items)
-            coinList.Add(list.Items);
+            objectList.Add(list.Items);
 
-        return coinList;
+        return objectList;
     }
 
-    public static string ToJson(List<List<Coin>> array, bool prettyPrint)
+    public static string ToJson(List<List<Object>> array, bool prettyPrint)
     {
 
         Wrapper2 wrapper2 = new Wrapper2();
 
-        foreach (List<Coin> list in array)
+        foreach (List<Object> list in array)
         {
             Wrapper1 wrapper1 = new Wrapper1();
 
-            foreach (Coin item in list)
+            foreach (Object item in list)
                 wrapper1.Items.Add(item);
             wrapper2.Items.Add(wrapper1);
         }
@@ -234,7 +244,7 @@ public static class JsonHelper
     [Serializable]
     private class Wrapper1
     {
-        public List<Coin> Items = new List<Coin>();
+        public List<Object> Items = new List<Object>();
     }
 
     [Serializable]
@@ -245,13 +255,15 @@ public static class JsonHelper
 }
 
 [Serializable]
-public class Coin
+public class Object
 {
     public Vector3 _pos;
+    public ObjectType _type;
 
-    public Coin(Vector3 pos)
+    public Object(Vector3 pos, ObjectType type)
     {
         _pos = pos;
+        _type = type;
     }
 }
 

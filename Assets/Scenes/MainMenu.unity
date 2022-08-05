@@ -6505,7 +6505,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b81d1b1ad9d9764dbf4c29a101f381e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinObj: {fileID: 1471610965257474688, guid: c31ef088287e9cd42bef77fbc0a874ca, type: 3}
+  objects:
+  - {fileID: 1471610965257474688, guid: c31ef088287e9cd42bef77fbc0a874ca, type: 3}
+  - {fileID: 854380061432576647, guid: 8255778317f9c994f8b977e1bd7b051e, type: 3}
 --- !u!4 &2094576549
 Transform:
   m_ObjectHideFlags: 0
