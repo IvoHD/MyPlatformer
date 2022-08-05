@@ -13,10 +13,10 @@ public class GameManager : MonoBehaviour
     GameObject coinObj;
 
     public static GameManager instance;
-	
+
 
     void Awake()
-	{
+    {
         if (instance is null)
         {
             instance = this;
@@ -32,25 +32,25 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
     }
     public int getMaxLevelIndex()
-	{
+    {
         return maxLevelIndex;
-	}
+    }
 
     public int getCurrentLevel()
-	{
+    {
         return SceneManager.GetActiveScene().buildIndex;
-	}
+    }
 
     public void LoadLastLevel()
-	{
+    {
         SceneManager.LoadScene(maxLevelIndex);
-	}
+    }
 
     public void LoadLevel(int levelIndex)
-	{
+    {
         if (levelIndex <= maxLevelIndex)
             SceneManager.LoadScene(levelIndex);
-	}
+    }
 
     /// <summary>
     /// Reloads current scene
@@ -68,10 +68,10 @@ public class GameManager : MonoBehaviour
     {
         int currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
         if (currentLevelIndex + 1 > SceneManager.sceneCountInBuildSettings - 1)
-		{
+        {
             LoadMainMenu();
             return;
-		}
+        }
         if (currentLevelIndex + 1 > maxLevelIndex)
             maxLevelIndex = currentLevelIndex + 1;
         Save();
@@ -83,16 +83,16 @@ public class GameManager : MonoBehaviour
     /// Loads MainMenu
     /// </summary>
 	public void LoadMainMenu()
-	{
+    {
         Save();
         SceneManager.LoadScene(0);
-	}
+    }
 
-	/// <summary>
-	/// Saves game progress
-	/// </summary>
-	public void SaveSessionProgress()
-	{
+    /// <summary>
+    /// Saves game progress
+    /// </summary>
+    public void SaveSessionProgress()
+    {
         PlayerPrefs.SetInt("maxLevelIndex", maxLevelIndex);
         PlayerPrefs.SetInt("score", ScoreKeepScript.instance.GetScore());
     }
@@ -101,30 +101,51 @@ public class GameManager : MonoBehaviour
     /// deletes level prefs and resets values in current session
     /// </summary>
     public void DeleteProgress()
-	{
+    {
         maxLevelIndex = 1;
         ScoreKeepScript.instance.resetScore();
         JSONSave.Reset();
-	}
+    }
 
-	private void OnLevelWasLoaded(int level)
-	{
+    private void OnLevelWasLoaded(int level)
+    {
         if (level > 10 || level < 1)
             return;
         foreach (Coin coin in JSONSave.GetCurrentState())
             Instantiate(coinObj, coin._pos, new Quaternion(0, 0, 0, 0));
     }
 
-	public void Save()
-	{
+    public void Save()
+    {
         JSONSave.Save();
-	}
+    }
+
+    public void Start()
+    {
+        if (!File.Exists(Application.persistentDataPath + "DefaultCoinState.json"))
+        {
+            TextAsset defaultCoinState = Resources.Load("DefaultCoinState") as TextAsset;
+            StreamWriter writer = new StreamWriter(Application.persistentDataPath + Path.AltDirectorySeparatorChar + "DefaultCoinState.json");
+            writer.Write(defaultCoinState.text);
+            writer.Close();
+
+        }
+
+        if (!File.Exists(Application.persistentDataPath + "CoinState.json"))
+        {
+            StreamWriter writer = new StreamWriter(Application.persistentDataPath + Path.AltDirectorySeparatorChar + "CoinState.json");
+            StreamReader reader = new StreamReader(Application.persistentDataPath + Path.AltDirectorySeparatorChar + "DefaultCoinState.json");
+            writer.Write(reader.ReadToEnd());
+            writer.Close();
+        }
+
+    }
 }
 
 public class JSONSave 
 {
-    static string path = Application.dataPath + Path.AltDirectorySeparatorChar + "CoinState.json";
-    static string defaultStatePath = Application.dataPath + Path.AltDirectorySeparatorChar + "DefaultCoinState.json";
+    static string path = Application.persistentDataPath + Path.AltDirectorySeparatorChar + "CoinState.json";
+    static string defaultStatePath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + "DefaultCoinState.json";
 
     public static void Save()
     {
