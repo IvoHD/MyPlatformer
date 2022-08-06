@@ -1,9 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using Assets.Scripts.Enums;
+using Assets.Scripts.Interfaces;
 using UnityEngine;
 
-public class EnemyMovementScript : MonoBehaviour
+public class EnemyMovementScript : MonoBehaviour, ISaveable
 {
+    Vector3 positionToSave;
+
     float moveSpeed = 1.5f;
     Rigidbody2D enemyRigidbody;
     EnemyHealthStateScript enemyHealthStateScript;
@@ -11,6 +13,7 @@ public class EnemyMovementScript : MonoBehaviour
 
     void Start()
     {
+        positionToSave = transform.position;
         enemyRigidbody = GetComponent<Rigidbody2D>();
         enemyHealthStateScript = GetComponent<EnemyHealthStateScript>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
@@ -43,5 +46,15 @@ public class EnemyMovementScript : MonoBehaviour
             return;
         moveSpeed = -moveSpeed;
         FlipSprite();
+	}
+
+	public Vector3 GetPositionToSave()
+	{
+        return positionToSave;
+    }
+
+    public ObjectType GetObjectType()
+	{
+        return ObjectType.Slime;
 	}
 }

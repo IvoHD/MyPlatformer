@@ -34,7 +34,7 @@ public class SettingsScreenScript : MonoBehaviour
 		bool foundRes = false;
 		for(int i = 0; i < resItems.Count; i++)
 		{
-			if(Screen.width == resItems[i].width && Screen.height == resItems[i].height)
+			if(Screen.width == resItems[i]._width && Screen.height == resItems[i]._height)
 			{
 				foundRes = true;
 				selectedResIndex = i;
@@ -86,7 +86,7 @@ public class SettingsScreenScript : MonoBehaviour
 
 	void UpdateResLabel()
 	{
-		resLabel.text = resItems[selectedResIndex].width.ToString() + " X " + resItems[selectedResIndex].height.ToString();
+		resLabel.text = resItems[selectedResIndex]._width.ToString() + " X " + resItems[selectedResIndex]._height.ToString();
 	}
 
 	public void UpdateVolumeLabel()
@@ -100,7 +100,7 @@ public class SettingsScreenScript : MonoBehaviour
 	/// </summary>
 	public void ApplyChanges()
 	{
-		Screen.SetResolution(resItems[selectedResIndex].width, resItems[selectedResIndex].height, fullScreenToggle.isOn);
+		Screen.SetResolution(resItems[selectedResIndex]._width, resItems[selectedResIndex]._height, fullScreenToggle.isOn);
 		if (volumeToggle.isOn)
 		{
 			volumeSlider.value = -80;
@@ -118,12 +118,12 @@ public class SettingsScreenScript : MonoBehaviour
 [System.Serializable]
 public class ResItem
 {
-	public int width;
-	public int height;
+	public int _width;
+	public int _height;
 
 	public ResItem(int width, int height)
 	{
-		this.width = width;
-		this.height = height;
+		_width = width;
+		_height = height;
 	}
 }

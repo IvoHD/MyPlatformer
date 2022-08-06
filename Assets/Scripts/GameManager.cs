@@ -1,8 +1,10 @@
 using Assets.Scripts.Enums;
+using Assets.Scripts.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -108,18 +110,12 @@ public class GameManager : MonoBehaviour
         JSONSave.Reset();
     }
 
-    private void OnLevelWasLoaded(int levelIndex)
+    void OnLevelWasLoaded(int levelIndex)
     {
 		if (levelIndex > 10 || levelIndex < 1)
 			return;
         foreach (Object obj in JSONSave.GetCurrentState())
 			Instantiate(objects[(int)obj._type], obj._pos, new Quaternion(0, 0, 0, 0));
-	}
-
-	private void Update()
-	{
-        if (Input.GetKeyDown(KeyCode.N))
-            LoadNextLevel();
 	}
 
 	public void Save()
@@ -166,14 +162,10 @@ public class JSONSave
 
 		objectList[index] = new List<Object>();
 
-        GameObject[] Coins = GameObject.FindGameObjectsWithTag("Coin");
-        GameObject[] Slimes = GameObject.FindGameObjectsWithTag("Enemies");
+        var ojectsToSave = GameObject.FindObjectsOfType<MonoBehaviour>().OfType<ISaveable>();
 
-
-        foreach (GameObject obj in Coins)
-            objectList[index].Add(new Object(obj.transform.position, ObjectType.Coin));
-        foreach (GameObject obj in Slimes)
-            objectList[index].Add(new Object(obj.transform.position, ObjectType.Slime));
+		foreach (ISaveable obj in ojectsToSave)
+            objectList[index].Add(new Object(obj.GetPositionToSave(), obj.GetObjectType()));
 
         json = JsonHelper.ToJson(objectList, true);
 
@@ -194,7 +186,6 @@ public class JSONSave
 
 
         return objectList[index];
-       
     }
 
     public static void Reset()
