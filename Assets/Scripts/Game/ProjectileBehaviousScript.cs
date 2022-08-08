@@ -3,7 +3,7 @@ using Assets.Scripts.Enums;
 
 public class ProjectileBehaviousScript : MonoBehaviour
 {
-    float bulletspeed = 7f;
+    float bulletSpeed = 7f;
     bool isFacingLeft;
     Rigidbody2D projectileRigidbody;
     bool isReflected;
@@ -15,9 +15,9 @@ public class ProjectileBehaviousScript : MonoBehaviour
     void Update()
     {
         if (isFacingLeft)
-            projectileRigidbody.velocity = new Vector2(isReflected ? bulletspeed : -bulletspeed, 0);
+            projectileRigidbody.velocity = new Vector2(isReflected ? bulletSpeed : -bulletSpeed, 0);
         else
-            projectileRigidbody.velocity = new Vector2(isReflected ? -bulletspeed : bulletspeed, 0);
+            projectileRigidbody.velocity = new Vector2(isReflected ? -bulletSpeed : bulletSpeed, 0);
     }
 
 	private void OnCollisionEnter2D(Collision2D collision)
@@ -37,4 +37,8 @@ public class ProjectileBehaviousScript : MonoBehaviour
         isFacingLeft = isfacingleft;
 	}
 
+    public void setBulletSpeed(float bulletspeed)
+    {
+        bulletSpeed = bulletspeed;
+    }
 }
