@@ -39,6 +39,6 @@ public class TowerScript : MonoBehaviour
         //sets bullet variables
         projectileBehaviousScript.SetIsFacingLeft(gameObject.transform.parent.gameObject.transform.localScale.x > 0);
         if(bulletSpeed > 0)
-            projectileBehaviousScript.setBulletSpeed(bulletSpeed);
+            projectileBehaviousScript.SetBulletSpeed(bulletSpeed);
 	}
 } 

@@ -23,13 +23,15 @@ public class PlayerMovementScript : MonoBehaviour
     float holdSpaceFactor = 5f;
 
     bool isRunning;
-    
+
     float timeBetweenJumps = 0.5f;
     float timeSinceJump;
 
+    ProjectileBehaviousScript storedBullet;
+
     PlayerHealthStateScript healthStateScript;
 
-	void Start()
+    void Start()
     {
         playerRigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -38,7 +40,7 @@ public class PlayerMovementScript : MonoBehaviour
         healthStateScript = GetComponent<PlayerHealthStateScript>();
 
         //Different max amount of jumps depending on current level
-        if(GameManager.instance.getCurrentLevel() >= 9)
+        if (GameManager.instance.getCurrentLevel() >= 9)
             JumpAmount = currJumpAmount = 2;
         else
             JumpAmount = currJumpAmount = 1;
@@ -50,7 +52,7 @@ public class PlayerMovementScript : MonoBehaviour
     {
         //deactivates movement when player is dead
         if (healthStateScript.isAlive)
-		{
+        {
             Run();
             if (currJumpAmount < 1 + JumpAmount)
                 timeSinceJump -= Time.deltaTime;
@@ -59,41 +61,70 @@ public class PlayerMovementScript : MonoBehaviour
             DynamicJump();
         }
         else
-		{
+        {
             Destroy(gameObject.GetComponent<PlayerInput>());
+        }
+    }
+
+	void OnTriggerEnter2D(Collider2D collision)
+	{
+		if (collision.tag == "Projectile" && storedBullet is null)
+		{
+            ProjectileBehaviousScript projectileBehaviousScript = collision.GetComponent<ProjectileBehaviousScript>();
+            projectileBehaviousScript.ActivateJuggling(this);
+            storedBullet = projectileBehaviousScript;
+		}
+	}
+
+	void OnTriggerExit2D(Collider2D other)
+	{
+        if (other.tag == "Projectile" && storedBullet is not null)
+		{
+            other.gameObject.GetComponent<ProjectileBehaviousScript>().DeactivateJuggling();
+            storedBullet = null;
 		}
     }
 
-    /// <summary>
-    /// resets currJumpAmount when player is grounded and not in a jump
-    /// </summary>
-	void CheckGrounding()
+    void OnShoot()
 	{
+        if (storedBullet is null)
+            return;
+        storedBullet.ShootBullet(transform.localScale.x < 0);
+	}
+
+	public float GetYJugglePosition()
+	{
+        return transform.position.y + 1f;
+	}
+
+	/// <summary>
+	/// resets currJumpAmount when player is grounded and not in a jump
+	/// </summary>
+	void CheckGrounding()
+    {
         if (timeSinceJump > 0)
             return;
         if (boxCollider.IsTouchingLayers(LayerMask.GetMask("Ground", "Climbing", "Towers")))
             currJumpAmount = JumpAmount;
-	}
+    }
 
-	
-
-	void Run()
-	{
-		playerRigidbody.velocity = new Vector2(moveInput.x * runSpeed * (isRunning ? 1.5f : 1), playerRigidbody.velocity.y);
+    void Run()
+    {
+        playerRigidbody.velocity = new Vector2(moveInput.x * runSpeed * (isRunning ? 1.5f : 1), playerRigidbody.velocity.y);
 
         animator.SetBool("IsRunning", IsMoving());
 
         FlipSprite();
-	}
+    }
 
     /// <summary>
     /// Flips the sprite depending on the playerRigidbody.velocity.x value
     /// </summary>
 	void FlipSprite()
-	{
-       if (IsMoving())
-           //Mathf.Sign(playerRigidboy.velocity.x) returns true/false depending if the veolcity is positve or negative.
-           transform.localScale = new Vector2(Mathf.Sign(playerRigidbody.velocity.x) * 2, 2f);
+    {
+        if (IsMoving())
+            //Mathf.Sign(playerRigidboy.velocity.x) returns true/false depending if the veolcity is positve or negative.
+            transform.localScale = new Vector2(Mathf.Sign(playerRigidbody.velocity.x) * 2, 2f);
     }
 
     /// <summary>
@@ -101,9 +132,9 @@ public class PlayerMovementScript : MonoBehaviour
     /// </summary>
     /// <param name="value"></param>
     void OnMove(InputValue value)
-	{
+    {
         moveInput = value.Get<Vector2>();
-	}
+    }
 
     /// <summary>
     /// makes the player jump if all conditions for jumping are met
@@ -113,9 +144,9 @@ public class PlayerMovementScript : MonoBehaviour
     {
         if (!(currJumpAmount > 0))
             return;
-        if(timeSinceJump > 0)
+        if (timeSinceJump > 0)
             return;
-        if (JumpAmount == 1 && !boxCollider.IsTouchingLayers(LayerMask.GetMask("Ground", "Climbing", "Towers"))) 
+        if (JumpAmount == 1 && !boxCollider.IsTouchingLayers(LayerMask.GetMask("Ground", "Climbing", "Towers")))
             return;
         currJumpAmount--;
         timeSinceJump = timeBetweenJumps;
@@ -129,7 +160,7 @@ public class PlayerMovementScript : MonoBehaviour
     /// Better jumping inspired by: https://www.youtube.com/watch?v=7KiK0Aqtmzc, https://www.youtube.com/watch?v=hG9SzQxaCm8&t=0s
     /// </summary>
     void DynamicJump()
-	{
+    {
         if (playerRigidbody.velocity.y < 0)
         {
             playerRigidbody.velocity += Vector2.down * gravity * fallingFactor * Time.deltaTime;
@@ -142,19 +173,19 @@ public class PlayerMovementScript : MonoBehaviour
     /// Checks if Player is climbing
     /// </summary>
     void OnClimb()
-	{
+    {
         if (!capsuleCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
-	    {
+        {
             animator.SetBool("IsClimbing", false);
             playerRigidbody.gravityScale = gravity;
             return;
-	    }
+        }
 
         if (Mathf.Abs(playerRigidbody.velocity.y) > Mathf.Epsilon)
-	    {
+        {
             animator.SetBool("IsRunning", false);
             animator.SetBool("IsClimbing", true);
-	    }
+        }
         HandleJumpOnLadder();
     }
 
@@ -162,12 +193,12 @@ public class PlayerMovementScript : MonoBehaviour
     /// Handles gravity on ladder. While not jumping gravity = 0
     /// </summary>
 	void HandleJumpOnLadder()
-	{
+    {
         if (timeSinceJump > 0)
-		{
+        {
             playerRigidbody.gravityScale = gravity;
             animator.SetBool("IsClimbing", false);
-		}
+        }
         else
         {
             playerRigidbody.gravityScale = 0;
@@ -182,12 +213,12 @@ public class PlayerMovementScript : MonoBehaviour
     /// Toggle runningState
     /// </summary>
     void OnIsRunning()
-	{
+    {
         isRunning = !isRunning;
-	}
+    }
 
     bool IsMoving()
-	{
+    {
         return Mathf.Abs(playerRigidbody.velocity.x) > Mathf.Epsilon;
     }
 
@@ -195,8 +226,8 @@ public class PlayerMovementScript : MonoBehaviour
     /// Increments bonusJumps
     /// </summary>
     void BonusJumpUp()
-	{
+    {
         JumpAmount++;
-	}
+    }
 
 }
