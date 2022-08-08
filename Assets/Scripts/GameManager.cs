@@ -107,20 +107,20 @@ public class GameManager : MonoBehaviour
     {
         maxLevelIndex = 1;
         ScoreKeepScript.instance.resetScore();
-        JSONSave.Reset();
+        SavingManager.instance.Reset();
     }
 
     void OnLevelWasLoaded(int levelIndex)
     {
 		if (levelIndex > 10 || levelIndex < 1)
 			return;
-        foreach (Object obj in JSONSave.GetCurrentState())
-			Instantiate(objects[(int)obj._type], obj._pos, new Quaternion(0, 0, 0, 0));
+        foreach (Object obj in SavingManager.instance.GetCurrentState()) 
+            Instantiate(objects[(int)obj._type], obj._pos, new Quaternion(0, 0, 0, 0));
 	}
 
 	public void Save()
     {
-        JSONSave.Save();
+        SavingManager.instance.Save();
     }
 
     public void Start()
@@ -143,119 +143,3 @@ public class GameManager : MonoBehaviour
 		}
 	}
 }
-
-public class JSONSave 
-{
-    static string path = Application.persistentDataPath + Path.AltDirectorySeparatorChar + "GameState.json";
-    static string defaultStatePath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + "DefaultGameState.json";
-
-    public static void Save()
-    {
-        int index = SceneManager.GetActiveScene().buildIndex - 1;
-        List<List<Object>> objectList = new List<List<Object>>();
-
-        //gets curret game state
-        StreamReader reader = new StreamReader(path);
-        string json = reader.ReadToEnd();
-        reader.Close();
-        objectList = JsonHelper.FromJson(json);
-
-		objectList[index] = new List<Object>();
-
-        var ojectsToSave = GameObject.FindObjectsOfType<MonoBehaviour>().OfType<ISaveable>();
-
-		foreach (ISaveable obj in ojectsToSave)
-            objectList[index].Add(new Object(obj.GetPositionToSave(), obj.GetObjectType()));
-
-        json = JsonHelper.ToJson(objectList, true);
-
-        StreamWriter writer = new StreamWriter(path);
-
-        writer.Write(json);
-        writer.Close();
-    }
-
-    public static List<Object> GetCurrentState()
-    {
-        int index = SceneManager.GetActiveScene().buildIndex - 1;
-        StreamReader reader = new StreamReader(path);
-        string json = reader.ReadToEnd();
-        reader.Close();
-
-        List<List<Object>> objectList = JsonHelper.FromJson(json);
-
-
-        return objectList[index];
-    }
-
-    public static void Reset()
-	{
-        StreamReader reader = new StreamReader(defaultStatePath);
-        string json = reader.ReadToEnd();
-        reader.Close();
-        StreamWriter writer = new StreamWriter(path);
-        writer.Write(json);
-        writer.Close();
-    }
-}
-
-public static class JsonHelper
-{
-    public static List<List<Object>> FromJson(string json)
-    {
-        Wrapper2 wrapper = JsonUtility.FromJson<Wrapper2>(json);
-        List<List<Object>> objectList = new List<List<Object>>(10);
-
-        if (wrapper is null)
-            return objectList;
-
-        foreach (Wrapper1 list in wrapper.Items)
-            objectList.Add(list.Items);
-
-        return objectList;
-    }
-
-    public static string ToJson(List<List<Object>> array, bool prettyPrint)
-    {
-
-        Wrapper2 wrapper2 = new Wrapper2();
-
-        foreach (List<Object> list in array)
-        {
-            Wrapper1 wrapper1 = new Wrapper1();
-
-            foreach (Object item in list)
-                wrapper1.Items.Add(item);
-            wrapper2.Items.Add(wrapper1);
-        }
-
-        return JsonUtility.ToJson(wrapper2, prettyPrint);
-    }
-
-    [Serializable]
-    private class Wrapper1
-    {
-        public List<Object> Items = new List<Object>();
-    }
-
-    [Serializable]
-    private class Wrapper2
-    {
-        public List<Wrapper1> Items = new List<Wrapper1>();
-    }
-}
-
-[Serializable]
-public class Object
-{
-    public Vector3 _pos;
-    public ObjectType _type;
-
-    public Object(Vector3 pos, ObjectType type)
-    {
-        _pos = pos;
-        _type = type;
-    }
-}
-
-

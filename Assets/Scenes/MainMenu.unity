@@ -4878,6 +4878,50 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e129c970b613c04c9757106d9d6a6ea, type: 3}
+--- !u!1 &1548756124
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1548756126}
+  - component: {fileID: 1548756125}
+  m_Layer: 0
+  m_Name: SavingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1548756125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1548756124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01bbaab6e61b8fc4cb64636786c468c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1548756126
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1548756124}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.162446, y: -0.0031941105, z: -9.882581}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1551653097
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6291,14 +6335,14 @@ MonoBehaviour:
   fullScreenToggle: {fileID: 141852199}
   resLabel: {fileID: 1761655933}
   resItems:
-  - width: 3840
-    height: 2160
-  - width: 1920
-    height: 1080
-  - width: 1280
-    height: 720
-  - width: 854
-    height: 480
+  - _width: 0
+    _height: 0
+  - _width: 0
+    _height: 0
+  - _width: 0
+    _height: 0
+  - _width: 0
+    _height: 0
   mixer: {fileID: 24100000, guid: 4dc42290df164b048bdd360517a06e6e, type: 2}
   volumeToggle: {fileID: 464247367}
   volumeSlider: {fileID: 1044606346}
