@@ -13,6 +13,7 @@ public class EnemyMovementScript : MonoBehaviour, ISaveable
 
     void Start()
     {
+        Register();
         positionToSave = transform.position;
         enemyRigidbody = GetComponent<Rigidbody2D>();
         enemyHealthStateScript = GetComponent<EnemyHealthStateScript>();
@@ -29,6 +30,7 @@ public class EnemyMovementScript : MonoBehaviour, ISaveable
             Destroy(enemyRigidbody);
             Destroy(capsuleCollider);
             Destroy(this);
+            
         }
     }
 
@@ -57,4 +59,14 @@ public class EnemyMovementScript : MonoBehaviour, ISaveable
 	{
         return ObjectType.Slime;
 	}
+
+    public void Register()
+    {
+        SavingManager.instance.Register(this);
+    }
+
+    public void Deregister()
+    {
+        SavingManager.instance.Deregister(this);
+    }
 }

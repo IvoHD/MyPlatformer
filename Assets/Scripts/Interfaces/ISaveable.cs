@@ -7,5 +7,7 @@ namespace Assets.Scripts.Interfaces
 	{
 		public Vector3 GetPositionToSave();
 		public ObjectType GetObjectType();
+		public void Register();
+		public void Deregister();
 	}
 }
